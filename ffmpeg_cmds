@@ -1,0 +1,64 @@
+* list webcam format
+ffmpeg -f v4l2 -list_formats all -i /dev/video1
+
+* record webcam
+
+ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video1 output.mkv
+
+
+* record webcam directy in h264
+ffmpeg -f v4l2 -input_format h264 -framerate 24 -video_size 1600x896 -i /dev/video1 -c:v copy output.mkv
+
+* webcam qui marche plutôt bien.
+ffmpeg -f v4l2 -input_format h264 -video_size 1920x1080 -i /dev/video1 -vcodec copy output.mkv
+ffmpeg -f v4l2 -input_format h264  -i /dev/video1 -vcodec copy output.mkv
+
+
+* GRABBER
+
+
+* record grabber
+ffmpeg -f v4l2 -input_format yuyv422 -i /dev/video0   output.mkv
+ffmpeg -f v4l2 -input_format yuyv422 -i /dev/video0 -c:v h264 output.mkv
+
+
+
+
+
+* webcam & grabber
+* work
+ffmpeg -f v4l2 -input_format h264    -i /dev/video1 \
+       -f v4l2 -input_format yuyv422 -i /dev/video0 \
+       -map 0 -map 1 output.mkv
+
+ffmpeg -f v4l2 -input_format h264    -i /dev/video1 \
+       -f v4l2 -input_format yuyv422 -i /dev/video0 \
+       -map 0 -map 1 -c:v:0 copy -c:v:1 h264 output.mkv
+
+ffmpeg -thread_queue_size 512 -f v4l2 -input_format yuyv422 -i /dev/video1 \
+       -thread_queue_size 512 -f v4l2 -input_format yuyv422 -i /dev/video0 \
+       -thread_queue_size 512 -f pulse -ac 2 -i default \
+       -map 0 -map 1 -map 2\
+       -c:v:0 h264 \
+       -c:v:1 h264 \
+       -c:a:2 mp3 \
+       -y \
+       output.mkv
+
+*test
+
+ffmpeg -thread_queue_size 512 -f v4l2 -input_format yuyv422 -i /dev/video1 \
+       -thread_queue_size 512 -f v4l2 -input_format yuyv422 -i /dev/video0 \
+       -thread_queue_size 512 -f pulse -ac 2 -i default \
+       -map 0 -map 1 -map 2\
+       -c:v:0 h264 \
+       -c:v:1 h264 \
+       -c:a:2 mp3 \
+       -y \
+       -metadata title="test" -metadata year="2016" \
+       -metadata language="fr" \
+       -metadata license="cc-by-sa" -metadata copyright="linux-gull.ch" \
+       -metadata description="mc'est cool" \
+       -metadata description="de pouvoir mettre une description" \
+       output.mkv
+
