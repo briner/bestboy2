@@ -7,6 +7,7 @@ import shlex
 import signal
 import datetime
 import re
+import argparse
 # pip
 from hurry.filesize import size, alternative
 #
@@ -52,13 +53,27 @@ def seems_a_important_movie(filepath):
     return False
 
 
-def main(cmd):
-    print("Launch it with cmd:")
-    print(cmd)
+#
+# def manage_movie(filepath) -> str:
+#     if not os.path.isfile(filepath):
+#         return filepath
+#     if not seems_a_important_movie(filepath):
+#
+#
+#             pass
+#         else:
 
+
+def main(cmd_fmt, filepath):
+    start=datetime.datetime.now()
+    tmpmovpath="tmp_{}_{}.mkv".format(filepath, start.strftime("%Hh%Mm%Ss"))
+    tmplogpath="tmp_{}_{}.log".format(filepath, start.strftime("%Hh%Mm%Ss"))
+    cmd_inst=cmd_fmt.format(filename=tmpmovpath)
+    print("Launch it with cmd:")
+    print(" " + cmd_inst)
     #
-    fh_log=open("ffmpeg.log","a")
-    process=subprocess.Popen(shlex.split(cmd),
+    fh_log=open(tmplogpath,"w")
+    process=subprocess.Popen(shlex.split(cmd_inst),
                              stdin=subprocess.PIPE,
                              stdout=fh_log,
                              stderr=fh_log,
@@ -78,7 +93,6 @@ def main(cmd):
     signal.signal(signal.SIGINT, signal_handler)
 
     #
-    start=datetime.datetime.now()
     state="not_started"
     while True:
         # TODO:    /dev/video1: Device or resource busy
@@ -99,6 +113,9 @@ def main(cmd):
         time.sleep(1)
 
 if "__main__" == __name__:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filepath", default="test.mkv")
+    args = parser.parse_args()
 
     config=bestboy_cfg.config[bestboy_cfg.default_configname]
-    main(config.cmd)
+    main(config.cmd_fmt, args.filepath)

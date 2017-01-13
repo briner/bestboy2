@@ -1,0 +1,6 @@
+.idea
+vid*
+__pycache__/
+ffmpeg.log
+venv/
+
