@@ -6,8 +6,8 @@ ffmpeg -f v4l2 -list_formats all -i /dev/video1
 ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video1 output.mkv
 
 
-* record webcam directy in h264
-ffmpeg -f v4l2 -input_format h264 -framerate 24 -video_size 1600x896 -i /dev/video1 -c:v copy output.mkv
+* record webcam directy in h264..
+#ko ffmpeg -f v4l2 -input_format h264 -framerate 24 -video_size 1600x896 -i /dev/video1 -c:v copy output.mkv
 
 * webcam qui marche plutôt bien.
 ffmpeg -f v4l2 -input_format h264 -video_size 1920x1080 -i /dev/video1 -vcodec copy output.mkv
@@ -44,6 +44,10 @@ ffmpeg -thread_queue_size 512 -f v4l2 -input_format yuyv422 -i /dev/video1 \
        -c:a:2 mp3 \
        -y \
        output.mkv
+
+* play second stream from mkv
+ffplay -vst 1 tmp_test_23h32m23s.mkv
+
 
 *test
 
