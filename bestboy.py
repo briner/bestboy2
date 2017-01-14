@@ -66,7 +66,7 @@ def seems_a_important_movie(filepath):
 
 def main(cmd_fmt, filepath):
     start=datetime.datetime.now()
-    tmpmovpath="tmp_{}_{}.mkv".format(filepath, start.strftime("%Hh%Mm%Ss"))
+    tmpmovpath="tmp_{}_{}.avi".format(filepath, start.strftime("%Hh%Mm%Ss"))
     tmplogpath="tmp_{}_{}.log".format(filepath, start.strftime("%Hh%Mm%Ss"))
     cmd_inst=cmd_fmt.format(filename=tmpmovpath)
     print("Launch it with cmd:")
