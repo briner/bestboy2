@@ -1,6 +1,6 @@
 class BestboyConfig():
-    cmd_fmt='''ffmpeg -thread_queue_size 512 -f v4l2 -input_format h264    -framerate 24 -video_size 800x600 -i /dev/video1
-                  -thread_queue_size 512     -f v4l2 -input_format yuyv422 -framerate 24 -video_size 800x600 -i /dev/video0
+    cmd_fmt='''ffmpeg -thread_queue_size 512 -f v4l2 -input_format h264    -framerate 24 -video_size 800x600   -i /dev/video1
+                  -thread_queue_size 512     -f v4l2 -input_format yuyv422 -framerate 24 -video_size 1920x1080 -i /dev/video0
                   -thread_queue_size 512 -f pulse -ac 2 -i default
                   -map 0 -map 1 -map 2
                   -c:v:0 copy
