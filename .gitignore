@@ -4,4 +4,5 @@ __pycache__/
 ffmpeg.log
 venv/
 tmp*
+output.mkv
 

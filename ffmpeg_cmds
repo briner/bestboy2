@@ -49,7 +49,14 @@ ffmpeg -thread_queue_size 512 -f v4l2 -input_format yuyv422 -i /dev/video1 \
 ffplay -vst 1 tmp_test_23h32m23s.mkv
 
 
-*test
+*test-----------------------------
+* offest for the sound
+ffmpeg -itsoffset -00:00.30 -i tmp_wargmaing_18h08m45s.avi \
+       -itsoffset 00:00     -i tmp_wargmaing_18h08m45s.avi \
+       -map 0:v:0    -map 0:v:1    -map 1:a:0 \
+       -vcodec copy  -vcodec copy  -acodec copy \
+       wargaming.avi
+
 
 ffmpeg -thread_queue_size 512 -f v4l2 -input_format yuyv422 -i /dev/video1 \
        -thread_queue_size 512 -f v4l2 -input_format yuyv422 -i /dev/video0 \
